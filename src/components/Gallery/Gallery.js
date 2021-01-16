@@ -46,7 +46,6 @@ class Gallery extends React.Component {
   }
 
   componentDidMount() {
-    console.log(React.version);
     this.getImages(this.props.tag);
     this.setState({
       galleryWidth: document.body.clientWidth,

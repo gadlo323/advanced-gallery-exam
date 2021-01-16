@@ -17,28 +17,41 @@ class Image extends React.Component {
       rotate: 0,
       scale: 1,
       zIndex: 0,
+      isMounted: false,
     };
   }
 
   calcImageSize() {
-    const { galleryWidth } = this.props;
+    let screenWidth = document.body.clientWidth;
     const targetSize = 200;
-    const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const size = galleryWidth / imagesPerRow;
-    this.setState({
-      size,
-    });
+    const imagesPerRow = Math.round(screenWidth / targetSize);
+    const size = screenWidth / imagesPerRow;
+    if (this.state.isMounted) {
+      this.setState({
+        size: size,
+      });
+    }
   }
 
+  //Listening to the event resize& calls the calcImageSize function to set the image size.
   componentDidMount() {
-    this.calcImageSize();
+    this.state.isMounted = true;
+    window.addEventListener("resize", this.calcImageSize.bind(this));
   }
+
+  //when the component is unloaded, destroy the event of resize
+  componentWillUnmount() {
+    this.state.isMounted = false;
+    window.removeEventListener("resize", this.calcImageSize.bind(this));
+  }
+
   // At the click event the rotate value is updated.
   rotateImage() {
     this.setState({
       rotate: this.state.rotate + 90,
     });
   }
+
   // At the click event the scale value & z-index value is updated.
   expandImage() {
     this.setState({
@@ -46,6 +59,7 @@ class Image extends React.Component {
       zIndex: this.state.zIndex + 100,
     });
   }
+
   // At the click event the scale value & z-index value is Return to default mode.
   closeExpand() {
     this.setState({
