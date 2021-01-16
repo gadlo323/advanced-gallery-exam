@@ -6,7 +6,7 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid white;
-
+  transition: 1s;
   > div {
     visibility: hidden;
     background: rgba(0, 0, 0, 0.7);
@@ -47,4 +47,16 @@
     }
   }
 }
+.close {
+  position: relative;
+  top: 0rem;
+  left: 5.4rem;
+  color: rgba(200, 29, 29, 1);
+  font-size: 1.6rem;
+  cursor: pointer;
 
+  &:hover {
+    font-size: 1.8rem;
+    color: rgb(214, 24, 24);
+  }
+}

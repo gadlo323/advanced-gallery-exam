@@ -57,6 +57,9 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+  /*The function accepts an image id and returns all values
+   ​​that do not match the id And 
+  updates the array of images.*/
   remoeveImage(id) {
     const newImages = this.state.images.filter((img) => img.id !== id);
     this.setState(() => {

@@ -15,6 +15,8 @@ class Image extends React.Component {
     this.state = {
       size: 200,
       rotate: 0,
+      scale: 1,
+      zIndex: 0,
     };
   }
 
@@ -31,10 +33,24 @@ class Image extends React.Component {
   componentDidMount() {
     this.calcImageSize();
   }
-
+  // At the click event the rotate value is updated.
   rotateImage() {
     this.setState({
       rotate: this.state.rotate + 90,
+    });
+  }
+  // At the click event the scale value & z-index value is updated.
+  expandImage() {
+    this.setState({
+      scale: this.state.scale + 1,
+      zIndex: this.state.zIndex + 100,
+    });
+  }
+  // At the click event the scale value & z-index value is Return to default mode.
+  closeExpand() {
+    this.setState({
+      scale: this.state.scale - 1,
+      zIndex: this.state.zIndex - 100,
     });
   }
 
@@ -44,7 +60,7 @@ class Image extends React.Component {
 
   render() {
     const { remoeveImage, dto } = this.props;
-    const { rotate, size } = this.state;
+    const { rotate, size, scale, zIndex } = this.state;
     return (
       <div
         className="image-root"
@@ -52,24 +68,37 @@ class Image extends React.Component {
           backgroundImage: `url(${this.urlFromDto(dto)})`,
           width: size + "px",
           height: size + "px",
-          transform: `rotate(${rotate}deg)`,
+          transform: `rotate(${rotate}deg) scale(${scale})`,
+          zIndex: zIndex,
         }}
       >
-        <div>
-          <FontAwesome
-            className="image-icon"
-            name="sync-alt"
-            title="rotate"
-            onClick={() => this.rotateImage()}
-          />
-          <FontAwesome
-            className="image-icon"
-            name="trash-alt"
-            title="delete"
-            onClick={() => remoeveImage(dto.id)}
-          />
-          <FontAwesome className="image-icon" name="expand" title="expand" />
-        </div>
+        {scale > 1 && (
+          <span className="close" onClick={() => this.closeExpand()}>
+            &times;
+          </span>
+        )}
+        {scale === 1 && (
+          <div>
+            <FontAwesome
+              className="image-icon"
+              name="sync-alt"
+              title="rotate"
+              onClick={() => this.rotateImage()}
+            />
+            <FontAwesome
+              className="image-icon"
+              name="trash-alt"
+              title="delete"
+              onClick={() => remoeveImage(dto.id)}
+            />
+            <FontAwesome
+              className="image-icon"
+              name="expand"
+              title="expand"
+              onClick={() => this.expandImage()}
+            />
+          </div>
+        )}
       </div>
     );
   }
