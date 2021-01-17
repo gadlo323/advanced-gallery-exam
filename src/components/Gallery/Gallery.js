@@ -14,6 +14,8 @@ class Gallery extends React.Component {
     this.state = {
       images: [],
       galleryWidth: this.getGalleryWidth(),
+      loading: false,
+      pageNumber: 1,
     };
   }
 
@@ -24,8 +26,10 @@ class Gallery extends React.Component {
       return 1000;
     }
   }
+
   getImages(tag) {
-    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
+    this.setLoading();
+    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&page=${this.state.pageNumber}&format=json&nojsoncallback=1`;
     const baseUrl = "https://api.flickr.com/";
     axios({
       url: getImagesUrl,
@@ -40,8 +44,14 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-          this.setState({ images: res.photos.photo });
+          this.setState((state) => {
+            return { images: [...state.images, ...res.photos.photo] };
+          });
         }
+        this.setLoading();
+        this.setState((state) => {
+          return { pageNumber: state.pageNumber + 1 };
+        });
       });
   }
 
@@ -50,10 +60,33 @@ class Gallery extends React.Component {
     this.setState({
       galleryWidth: document.body.clientWidth,
     });
+    window.addEventListener("scroll", this.onScroll.bind(this));
   }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll.bind(this));
+  }
+
+  /*The function checks if the page is at the bottom 
+  and if so activates the getImages function */
+  onScroll = () => {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 5 &&
+      this.state.images.length &&
+      !this.state.loading
+    ) {
+      this.getImages(this.props.tag);
+    }
+  };
 
   componentWillReceiveProps(props) {
     this.getImages(props.tag);
+  }
+
+  setLoading() {
+    this.setState({
+      loading: !this.state.loading,
+    });
   }
 
   /*The function accepts an image id and returns all values
@@ -69,16 +102,19 @@ class Gallery extends React.Component {
   render() {
     return (
       <div className="gallery-root">
-        {this.state.images.map((dto) => {
+        {this.state.images.map((dto, index) => {
           return (
             <Image
-              key={"image-" + dto.id}
+              key={"image-" + dto.id + index}
               dto={dto}
               galleryWidth={this.state.galleryWidth}
               remoeveImage={this.remoeveImage.bind(this)}
             />
           );
         })}
+        <span
+          className={this.state.loading ? "spinner show" : "spinner hide"}
+        ></span>
       </div>
     );
   }
