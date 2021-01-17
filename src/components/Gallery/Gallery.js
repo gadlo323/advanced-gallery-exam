@@ -98,20 +98,54 @@ class Gallery extends React.Component {
       return { images: newImages };
     });
   }
+  onDragOver(e) {
+    e.preventDefault();
+  }
+
+  onDrop(e, target) {
+    const { images } = this.state;
+    e.preventDefault();
+    const id = e.dataTransfer.getData("imageId"); // The ID of the box being dragged
+    const dropPlaceId = target.props.dto.id; // The ID of the box where you drops
+
+    /*Go through the array and look for the location of our two boxes
+     and save the location and the object itself */
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].id === id) var selectedBox = { place: i, data: images[i] };
+      if (images[i].id === dropPlaceId)
+        var replacedBox = { place: i, data: images[i] };
+      if (replacedBox && selectedBox) break;
+    }
+    //Swap between the position of the two boxes in the array
+    if (selectedBox && replacedBox) {
+      images[selectedBox.place] = replacedBox.data;
+      images[replacedBox.place] = selectedBox.data;
+
+      this.setState(() => {
+        return { images: images };
+      });
+    }
+  }
+  onDragStart(e, draggedId) {
+    e.dataTransfer.setData("imageId", draggedId);
+  }
 
   render() {
     return (
-      <div className="gallery-root">
+      <div className="gallery-root" onDragOver={(e) => this.onDragOver(e)}>
         {this.state.images.map((dto, index) => {
           return (
             <Image
               key={"image-" + dto.id + index}
               dto={dto}
+              onDrop={this.onDrop.bind(this)}
               galleryWidth={this.state.galleryWidth}
               remoeveImage={this.remoeveImage.bind(this)}
+              onDragStart={this.onDragStart.bind(this)}
             />
           );
         })}
+
         <span
           className={this.state.loading ? "spinner show" : "spinner hide"}
         ></span>

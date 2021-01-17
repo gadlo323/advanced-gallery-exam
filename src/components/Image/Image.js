@@ -73,7 +73,7 @@ class Image extends React.Component {
   }
 
   render() {
-    const { remoeveImage, dto } = this.props;
+    const { remoeveImage, dto, onDragStart, onDrop } = this.props;
     const { rotate, size, scale, zIndex } = this.state;
     return (
       <div
@@ -85,6 +85,9 @@ class Image extends React.Component {
           transform: `rotate(${rotate}deg) scale(${scale})`,
           zIndex: zIndex,
         }}
+        draggable
+        onDragStart={(e) => onDragStart(e, dto.id)}
+        onDrop={(e) => onDrop(e, this)}
       >
         {scale > 1 && (
           <span className="close" onClick={() => this.closeExpand()}>
@@ -92,7 +95,7 @@ class Image extends React.Component {
           </span>
         )}
         {scale === 1 && (
-          <div>
+          <div className="on-drag">
             <FontAwesome
               className="image-icon"
               name="sync-alt"
