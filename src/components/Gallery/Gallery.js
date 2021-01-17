@@ -16,6 +16,7 @@ class Gallery extends React.Component {
       galleryWidth: this.getGalleryWidth(),
       loading: false,
       pageNumber: 1,
+      noData: false,
     };
   }
 
@@ -27,8 +28,9 @@ class Gallery extends React.Component {
     }
   }
 
-  getImages(tag) {
+  getImages(tag, notFirstTime) {
     this.setLoading();
+    if (!notFirstTime) this.setState({ images: [] });
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&page=${this.state.pageNumber}&format=json&nojsoncallback=1`;
     const baseUrl = "https://api.flickr.com/";
     axios({
@@ -47,7 +49,7 @@ class Gallery extends React.Component {
           this.setState((state) => {
             return { images: [...state.images, ...res.photos.photo] };
           });
-        }
+        } else this.setState({ noData: true });
         this.setLoading();
         this.setState((state) => {
           return { pageNumber: state.pageNumber + 1 };
@@ -75,7 +77,7 @@ class Gallery extends React.Component {
       this.state.images.length &&
       !this.state.loading
     ) {
-      this.getImages(this.props.tag);
+      this.getImages(this.props.tag, true);
     }
   };
 
@@ -126,29 +128,23 @@ class Gallery extends React.Component {
       });
     }
   }
-  onDragStart(e, draggedId) {
-    e.dataTransfer.setData("imageId", draggedId);
-  }
-
   render() {
+    const { galleryWidth, images, loading, noData } = this.state;
     return (
       <div className="gallery-root" onDragOver={(e) => this.onDragOver(e)}>
-        {this.state.images.map((dto, index) => {
+        {images.map((dto, index) => {
           return (
             <Image
               key={"image-" + dto.id + index}
               dto={dto}
               onDrop={this.onDrop.bind(this)}
-              galleryWidth={this.state.galleryWidth}
+              galleryWidth={galleryWidth}
               remoeveImage={this.remoeveImage.bind(this)}
-              onDragStart={this.onDragStart.bind(this)}
             />
           );
         })}
-
-        <span
-          className={this.state.loading ? "spinner show" : "spinner hide"}
-        ></span>
+        {noData && <h3>No values ​​matching the search word were found. </h3>}
+        <span className={loading ? "spinner show" : "spinner hide"}></span>
       </div>
     );
   }

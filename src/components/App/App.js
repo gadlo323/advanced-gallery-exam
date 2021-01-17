@@ -1,4 +1,5 @@
 import React from "react";
+import { DebounceInput } from "react-debounce-input";
 import "./App.scss";
 import Gallery from "../Gallery";
 
@@ -13,17 +14,19 @@ class App extends React.Component {
   }
 
   render() {
+    const { tag } = this.state;
     return (
       <div className="app-root">
         <div className="app-header">
           <h2>Flickr Gallery</h2>
-          <input
+          <DebounceInput
             className="app-input"
-            onChange={(event) => this.setState({ tag: event.target.value })}
-            value={this.state.tag}
+            debounceTimeout={1000}
+            onChange={(e) => this.setState({ tag: e.target.value })}
+            value={tag}
           />
         </div>
-        <Gallery tag={this.state.tag} />
+        <Gallery tag={tag} />
       </div>
     );
   }

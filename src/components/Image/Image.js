@@ -72,8 +72,13 @@ class Image extends React.Component {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
+  //In a drag event we store the id inside the dataTransfer
+  onDragStart(e, draggedId) {
+    e.dataTransfer.setData("imageId", draggedId);
+  }
+
   render() {
-    const { remoeveImage, dto, onDragStart, onDrop } = this.props;
+    const { remoeveImage, dto, onDrop } = this.props;
     const { rotate, size, scale, zIndex } = this.state;
     return (
       <div
@@ -86,8 +91,8 @@ class Image extends React.Component {
           zIndex: zIndex,
         }}
         draggable
-        onDragStart={(e) => onDragStart(e, dto.id)}
         onDrop={(e) => onDrop(e, this)}
+        onDragStart={(e) => this.onDragStart(e, dto.id)}
       >
         {scale > 1 && (
           <span className="close" onClick={() => this.closeExpand()}>
@@ -114,6 +119,7 @@ class Image extends React.Component {
               title="expand"
               onClick={() => this.expandImage()}
             />
+            {/* <FontAwesome className="image-icon" name="info" title="info" /> */}
           </div>
         )}
       </div>
