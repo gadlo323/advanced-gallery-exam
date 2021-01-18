@@ -68,6 +68,10 @@ class Image extends React.Component {
     });
   }
 
+  changeHeader(dto) {
+    this.props.cover(this.urlFromDto(dto));
+  }
+
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
@@ -119,12 +123,12 @@ class Image extends React.Component {
               title="expand"
               onClick={() => this.expandImage()}
             />
-            {/* <FontAwesome
+            <FontAwesome
               className="image-icon"
-              name="info"
-              title="info"
-              onClick={() => this.swepImage(dto)}
-            /> */}
+              name="images"
+              title="change-Header"
+              onClick={() => this.changeHeader(dto)}
+            />
           </div>
         )}
       </div>

@@ -11,14 +11,30 @@ class App extends React.Component {
     super();
     this.state = {
       tag: "art",
+      cover: "",
     };
   }
 
+  /*The function gets a new image as a parameter and updates the background.*/
+  updateCover(newCover) {
+    this.setState(() => {
+      return { cover: newCover };
+    });
+  }
+
   render() {
-    const { tag } = this.state;
+    const { tag, cover } = this.state;
     return (
       <div className="app-root">
-        <div className="app-header">
+        <div
+          className="app-header"
+          style={{
+            backgroundImage: `url(${cover})`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "50%",
+          }}
+        >
           <h2>Flickr Gallery</h2>
           <DebounceInput
             className="app-input"
@@ -28,7 +44,7 @@ class App extends React.Component {
           />
         </div>
         <ScrollTop />
-        <Gallery tag={tag} />
+        <Gallery tag={tag} cover={this.updateCover.bind(this)} />
       </div>
     );
   }

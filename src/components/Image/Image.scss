@@ -6,7 +6,10 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid white;
+  object-fit: cover;
   transition: 1s;
+  transform-origin: top right;
+
   > div {
     visibility: hidden;
     background: rgba(0, 0, 0, 0.7);
@@ -30,7 +33,7 @@
   }
 
   .image-icon {
-    font-size: 20px;
+    font-size: 17px;
     vertical-align: middle;
     border: 1px solid #ccc;
     color: #ccc;

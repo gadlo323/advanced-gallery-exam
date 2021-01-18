@@ -30,7 +30,7 @@ class Gallery extends React.Component {
 
   getImages(tag, notFirstTime) {
     this.setLoading();
-    if (!notFirstTime) this.setState({ images: [] });
+    if (!notFirstTime) this.setState({ images: [], pageNumber: 1 }); // Checking for a new tag search
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&page=${this.state.pageNumber}&format=json&nojsoncallback=1`;
     const baseUrl = "https://api.flickr.com/";
     axios({
@@ -144,6 +144,7 @@ class Gallery extends React.Component {
               onDrop={this.onDrop.bind(this)}
               galleryWidth={galleryWidth}
               remoeveImage={this.remoeveImage.bind(this)}
+              cover={this.props.cover}
             />
           );
         })}

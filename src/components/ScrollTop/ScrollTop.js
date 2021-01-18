@@ -17,7 +17,7 @@ class ScrollTop extends Component {
     window.removeEventListener("resize", this.showVisibility.bind(this));
   }
   showVisibility() {
-    if (window.pageYOffset > 300) {
+    if (window.pageYOffset > 500) {
       this.setState({
         show: true,
       });

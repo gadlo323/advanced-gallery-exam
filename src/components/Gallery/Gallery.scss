@@ -1,5 +1,4 @@
 .gallery-root {
-  position: relative;
   text-align: center;
 }
 
@@ -14,34 +13,6 @@
   font-size: 15pt;
 }
 
-.collage-gallery {
-  position: absolute !important;
-  top: 5%;
-  left: 50%;
-  padding: 2rem;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
-  width: 70%;
-  margin: auto;
-  background-color: red;
-  z-index: 100;
-  box-shadow: 1px 3px 19px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 1px 3px 19px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 1px 3px 19px 0px rgba(0, 0, 0, 0.75);
-}
-.collage-btn {
-  position: absolute;
-  top: -2.2rem;
-  left: 42rem;
-  background: red;
-  border: none;
-  background-color: salmon;
-  color: #fff;
-  padding: 0.3rem 0.9rem;
-  cursor: pointer;
-}
 .show {
   display: block;
 }
