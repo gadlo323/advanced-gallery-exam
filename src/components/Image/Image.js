@@ -119,7 +119,12 @@ class Image extends React.Component {
               title="expand"
               onClick={() => this.expandImage()}
             />
-            {/* <FontAwesome className="image-icon" name="info" title="info" /> */}
+            {/* <FontAwesome
+              className="image-icon"
+              name="info"
+              title="info"
+              onClick={() => this.swepImage(dto)}
+            /> */}
           </div>
         )}
       </div>

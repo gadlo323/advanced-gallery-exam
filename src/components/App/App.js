@@ -2,6 +2,7 @@ import React from "react";
 import { DebounceInput } from "react-debounce-input";
 import "./App.scss";
 import Gallery from "../Gallery";
+import ScrollTop from "../ScrollTop/ScrollTop";
 
 class App extends React.Component {
   static propTypes = {};
@@ -26,6 +27,7 @@ class App extends React.Component {
             value={tag}
           />
         </div>
+        <ScrollTop />
         <Gallery tag={tag} />
       </div>
     );

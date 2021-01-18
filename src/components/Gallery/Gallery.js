@@ -47,7 +47,10 @@ class Gallery extends React.Component {
           res.photos.photo.length > 0
         ) {
           this.setState((state) => {
-            return { images: [...state.images, ...res.photos.photo] };
+            return {
+              images: [...state.images, ...res.photos.photo],
+              noData: false,
+            };
           });
         } else this.setState({ noData: true });
         this.setLoading();
@@ -128,6 +131,7 @@ class Gallery extends React.Component {
       });
     }
   }
+
   render() {
     const { galleryWidth, images, loading, noData } = this.state;
     return (
@@ -143,7 +147,11 @@ class Gallery extends React.Component {
             />
           );
         })}
-        {noData && <h3>No values ​​matching the search word were found. </h3>}
+
+        {noData && (
+          <h3>You search did not return any results. Please try again. </h3>
+        )}
+
         <span className={loading ? "spinner show" : "spinner hide"}></span>
       </div>
     );
