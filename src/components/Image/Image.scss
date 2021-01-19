@@ -8,7 +8,6 @@
   border: 1px solid white;
   object-fit: cover;
   transition: 1s;
-  transform-origin: top right;
 
   > div {
     visibility: hidden;
@@ -66,5 +65,12 @@
   cursor: grab;
   &:active {
     cursor: grabbing;
+  }
+}
+
+@media (max-width: 500px) {
+  .image-root {
+    transform-origin: center !important;
+    transform: scale(1) !important;
   }
 }

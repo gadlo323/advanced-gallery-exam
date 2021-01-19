@@ -55,16 +55,18 @@ class Image extends React.Component {
   // At the click event the scale value & z-index value is updated.
   expandImage() {
     this.setState({
-      scale: this.state.scale + 1,
-      zIndex: this.state.zIndex + 100,
+      origin: "top right",
+      scale: this.state.scale + 1.1,
+      zIndex: this.state.zIndex + 25,
     });
   }
 
   // At the click event the scale value & z-index value is Return to default mode.
   closeExpand() {
     this.setState({
-      scale: this.state.scale - 1,
-      zIndex: this.state.zIndex - 100,
+      scale: this.state.scale - 1.1,
+      zIndex: this.state.zIndex - 25,
+      origin: "",
     });
   }
 
