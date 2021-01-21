@@ -1,3 +1,11 @@
+# Deployed App Link
+https://gadlo323.github.io/flickr-gallery/
+
+# Extra Features
+1) Back to Top Feature.
+2) Change background by selecting an image.
+3) Prevent search for any typing using debounce.
+
 # Flickr Gallery
 
 Welcome to the Flickr Gallery application.
